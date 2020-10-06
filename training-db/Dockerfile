@@ -11,6 +11,6 @@ COPY . .
 # Open port
 EXPOSE 5000
 # Add label for more infos
-LABEL training.db.api="0.0.1-beta"
+LABEL training.db.api="0.0.1"
 # Run app.py script to start database 
 CMD ["python3","app.py"]
