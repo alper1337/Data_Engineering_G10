@@ -6,14 +6,15 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 # allow to directly create and fill a table from scratch based on csv file
-#@app.route('/training-db/<table_name>', methods=['POST'])
-#def create_table(table_name):
-#    file = request.files['file']
-#    table = pd.read_csv(file)
-#    create_tb(table_name, list(table.columns))
-#    insert_records(table_name, table.to_dict(orient='records'))
-#    return json.dumps({'message':'The table {tname} was created'.format(tname=table_name)},
-#    sort_keys=False, indent=4), 200
+@app.route('/training-db/<table_name>', methods=['POST'])
+def create_table(table_name):
+    '''Takes json file where the first key is column names and 
+    the rest are the data that are to be inserted'''
+    req_data = request.get_json()
+    create_tb(table_name, req_data['columns'])
+    insert_records(table_name, req_data['data'])
+    return json.dumps({'message':'The table {tname} was created'.format(tname=table_name)},
+    sort_keys=False, indent=4), 200
 
 # allow to set up table like sql - first create table schema
 @app.route('/training-db/schema/<table_name>', methods=['POST'])
