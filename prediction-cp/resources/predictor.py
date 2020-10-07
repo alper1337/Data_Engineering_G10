@@ -7,15 +7,15 @@ import sklearn
 # make prediction
 def predict_for(dataset):
     model_repo = os.environ['MODEL_REPO']
-    if model_repo:
-        file_path = os.path.join(model_repo, "model.sav")            
-        model = pickle.load(open(file_path, 'rb'))       # load weights
-        val_set2 = dataset.copy()
-        result = model.predict(dataset)              # make prediction
-        y_classes = result.argmax(axis=-1)
-        val_set2['class'] = y_classes.tolist()
-        dic = val_set2.to_dict(orient='records')
-        return json.dumps(dic, indent=4, sort_keys=False)        # return prediction as json
+    if os.path.isdir(model_repo):
+        file_path = os.path.join(model_repo, "trained_model.sav")            
+        with open(file_path, 'rb') as file:
+            model = pickle.load(file)
+        prediction = model.predict(dataset)
+        fmnist_classes = {'0':"T-shirt/top", "1": "Trouser", "2": "Pullover", "3": "Dress", "4": "Coat", "5": "Sandal", 
+                  "6": "Shirt", "7": "Sneaker", "8": "Bag", "9": "Ankle boot"}
+        prediction = [fmnist_classes[predict] for predict in prediction]
+        return json.dumps(prediction, indent=4, sort_keys=False)        # return prediction as json
     else:
         return json.dumps({'message': 'A model cannot be found.'},
                           sort_keys=False, indent=4)

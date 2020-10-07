@@ -5,11 +5,11 @@ from resources import predictor
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-@app.route('/prediction-cp/<model>', methods=['POST'])    # port routing for prediction request
+@app.route('/prediction-cp/<model>', methods=['POST'])   
 def predict_perf(model):
     content = request.get_json()
     df = pd.read_json(json.dumps(content), orient='records')
-    if model == "mlp":
+    if model == "svm":
         js = predictor.predict_for(df)
         resp = Response(js, status=200, mimetype='application/json')
         resp.headers['Access-Control-Allow-Origin'] = '*'
@@ -21,4 +21,4 @@ def predict_perf(model):
                           sort_keys=False, indent=4), 400
 
 
-app.run(host='0.0.0.0', port=5000)
+app.run(host='0.0.0.0', port=5002)
