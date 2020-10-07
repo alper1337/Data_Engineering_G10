@@ -7,7 +7,7 @@ COPY requirements.txt .
 # install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-EXPOSE 5002
+EXPOSE 5000
 # Env variable to mount volume to
 ENV MODEL_REPO  /usr/src/myapp/models
 # Run our App

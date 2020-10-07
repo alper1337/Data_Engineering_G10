@@ -4,7 +4,7 @@ WORKDIR /usr/src/myapp
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-EXPOSE 5001
+EXPOSE 5000
 
 ENV MODEL_REPO  /usr/src/myapp/models
 ENV TRAIN_DB_API  http://training-db:5000/training-db/fminst
