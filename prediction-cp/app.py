@@ -7,6 +7,7 @@ app.config["DEBUG"] = True
 
 @app.route('/prediction-cp/<model>', methods=['POST'])   
 def predict_perf(model):
+    print(model)
     content = request.get_json()
     df = pd.read_json(json.dumps(content), orient='records')
     if model == "svm":
